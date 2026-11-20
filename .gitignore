@@ -1,0 +1,17 @@
+.env
+.env.production
+.env.local
+.venv/
+*.log
+*.zip
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest-tmp-*/
+apps/web/node_modules/
+apps/web/dist/
+apps/web/test-results/
+apps/web/playwright-report/
+apps/web/.playwright-browsers/
+services/api/.env
+deploy/backup-approval.json

@@ -1,0 +1,78 @@
+{
+  "artifact_type": "scheme_source_evidence_candidates",
+  "authoritative_catalogue": false,
+  "approval_status": "not_submitted",
+  "runtime_eligible": false,
+  "prepared_on": "2026-11-20",
+  "deployment_geography_assumption": "Telangana",
+  "warning": "Evidence-routing artifact only. Null or ambiguous fields require an authorized policy reviewer. This file is not a Scheme v2 catalogue and cannot be loaded by the agent.",
+  "candidates": [
+    {
+      "candidate_id": "PM-KISAN",
+      "scheme_name": "Pradhan Mantri Kisan Samman Nidhi",
+      "issuing_authority": "Department of Agriculture and Farmers Welfare, Ministry of Agriculture and Farmers Welfare, Government of India",
+      "official_sources": [
+        "https://pmkisan.gov.in/",
+        "https://pmkisan.gov.in/Documents/RevisedPM-KISANOperationalGuidelines%28English%29.pdf"
+      ],
+      "geographic_applicability_evidence": "Central Sector scheme for eligible farmer families identified by State and UT administrations.",
+      "eligibility_evidence_summary": "Official portal describes landholding farmer families, defined family membership, exclusion categories, mandatory eKYC, and direct benefit transfer. Current portal notices and the revised operational guidelines must be reconciled before encoding rules.",
+      "required_documents": null,
+      "application_process_evidence": "Official portal exposes New Farmer Registration and Know Your Status functions.",
+      "effective_from_evidence": "2018-12-01",
+      "effective_until_evidence": null,
+      "source_revision_date": null,
+      "human_review_required": true,
+      "review_questions": [
+        "Confirm the currently controlling guideline and revision date.",
+        "Confirm the complete current document set and all exclusion evidence.",
+        "Confirm whether recent portal notices alter eligibility processing."
+      ]
+    },
+    {
+      "candidate_id": "TELANGANA-TGMIP",
+      "scheme_name": "Telangana State Micro Irrigation Project",
+      "issuing_authority": "Horticulture Department, Government of Telangana",
+      "official_sources": [
+        "https://horticulturedept.telangana.gov.in/horticulturetelangana/MIP_FAQ.aspx"
+      ],
+      "geographic_applicability_evidence": "The official FAQ states the scheme is open across Telangana, subject to programme guidelines and water-scarcity conditions.",
+      "eligibility_evidence_summary": "The FAQ describes Telangana farmers, a once-in-seven-years condition, and benefit area up to 5 hectares, but does not provide sufficient revision control to encode definitive current eligibility.",
+      "required_documents_evidence": [
+        "Land document",
+        "Aadhaar card",
+        "Caste certificate"
+      ],
+      "application_process_evidence": "Apply through MeeSeva centres according to the official FAQ.",
+      "effective_from_evidence": null,
+      "effective_until_evidence": null,
+      "source_revision_date": null,
+      "human_review_required": true,
+      "review_questions": [
+        "Obtain the current controlling TGMIP guidelines and effective dates.",
+        "Verify category-specific subsidy rules and current unit costs.",
+        "Confirm whether document and area requirements have changed."
+      ]
+    },
+    {
+      "candidate_id": "TELANGANA-MEESEVA-AGRICULTURE",
+      "scheme_name": "Telangana MeeSeva agriculture service candidates",
+      "issuing_authority": "Government of Telangana / Mandal Agriculture Officer",
+      "official_sources": [
+        "https://ts.meeseva.telangana.gov.in/TSDeptPortal/UserInterface/Services.html"
+      ],
+      "geographic_applicability_evidence": "Telangana service portal.",
+      "eligibility_evidence_summary": "The official service list includes crop insurance, subsidized seed distribution, and farm mechanization, with service descriptions, charges, SLAs, and approving authority; it does not provide complete current eligibility rules.",
+      "required_documents": null,
+      "application_process_evidence": "MeeSeva service filing with MAO verification/approval where stated.",
+      "effective_from_evidence": null,
+      "effective_until_evidence": null,
+      "source_revision_date": null,
+      "human_review_required": true,
+      "review_questions": [
+        "Resolve each service into its current controlling notification or guideline.",
+        "Obtain documents, eligibility, benefit limits, and effective dates for each service."
+      ]
+    }
+  ]
+}

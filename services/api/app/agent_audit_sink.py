@@ -1,0 +1,48 @@
+"""Independent transactional storage for agent audit events.
+
+No automatic database connection or migration is performed.
+"""
+
+from collections.abc import Callable
+
+from sqlalchemy.orm import Session
+
+from .agent_audit import AgentAuditEvent
+from .agent_audit_models import AgentAuditRecord
+
+
+class AgentAuditStorageError(RuntimeError):
+    """Audit storage failed; caller must not return a successful result."""
+
+
+def make_database_audit_sink(
+    session_factory: Callable[[], Session],
+) -> Callable[[AgentAuditEvent], None]:
+    """Return an audit sink with an independent session per event."""
+
+    def persist(event: AgentAuditEvent) -> None:
+        try:
+            with session_factory()() as session:
+                try:
+                    record = AgentAuditRecord(
+                        actor_id=event.actor_id,
+                        actor_role=event.actor_role,
+                        parcel_id=event.parcel_id,
+                        subject_id=event.subject_id,
+                        correlation_id=event.correlation_id,
+                        operation=event.operation,
+                        outcome=event.outcome,
+                        reason_code=event.reason_code,
+                        created_at=event.timestamp,
+                    )
+                    session.add(record)
+                    session.commit()
+                except Exception:
+                    session.rollback()
+                    raise
+        except Exception as exc:
+            raise AgentAuditStorageError(
+                "Agent audit storage unavailable"
+            ) from exc
+
+    return persist

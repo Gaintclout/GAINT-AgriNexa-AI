@@ -1,0 +1,1095 @@
+
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#10263f;background:#f3f6f8}
+*{box-sizing:border-box}
+body{margin:0}
+button,input{font:inherit}
+button{cursor:pointer}
+.shell{min-height:100vh;display:flex}
+.shell>aside{width:235px;flex-shrink:0;background:#10263f;color:#fff;padding:30px 20px;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:12px;font-size:19px;font-weight:800;line-height:1.05;margin-bottom:50px}
+.brand svg{color:#8de4ae}
+.brand small{font-size:14px;color:#a6ddbe}
+.shell>aside .nav{display:flex;flex-direction:column;gap:5px;padding:0;margin:0;background:transparent;border-radius:0}
+.shell>aside .nav button{width:100%;padding:13px 16px;border:0;border-radius:12px;background:transparent;color:#bbccda;font-size:14px;font-weight:600;text-align:left;transition:background .2s,color .2s}
+.shell>aside .nav button:hover{background:#1b3b53;color:#fff}
+.shell>aside .nav button.active{background:#244960;color:#fff}
+.shell>aside .nav button:focus-visible,.cards article:focus-visible,.hero-action:focus-visible{outline:3px solid #8de4ae;outline-offset:3px}
+.aside-foot{margin-top:auto;font-size:11px;color:#93a9ba}
+.shell>main{flex:1;padding:0 38px 50px;min-width:0}
+.shell>main>header{height:84px;display:flex;align-items:center;justify-content:space-between;gap:15px;font-size:14px;color:#536577}
+.status{border-radius:30px;padding:8px 14px;background:#e3f5e9;color:#1c8a58;white-space:nowrap;font-weight:600}
+.hero{border-radius:24px;padding:44px 46px;background:linear-gradient(120deg,#10263f,#1c8a58);color:#fff}
+.eyebrow{letter-spacing:2px;font-size:11px;color:#a6e6c1}
+.hero h1{font-size:clamp(28px,3.5vw,47px);line-height:1.15;margin:18px 0}
+.hero p{max-width:590px;color:#d7e8e2;line-height:1.7}
+.hero-action{display:inline-flex;align-items:center;gap:12px;margin-top:18px;font-size:13px;font-weight:700;cursor:pointer}
+.hero-action:hover{color:#a6e6c1}
+h2{font-size:20px;margin:36px 0 18px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.cards article,.details{background:#fff;border:1px solid #e2eaf0;border-radius:18px;padding:24px;box-shadow:0 6px 24px #10263f08}
+.cards article{cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s}
+.cards article:hover{transform:translateY(-3px);border-color:#b4d9c5;box-shadow:0 12px 28px #10263f14}
+.cards svg{color:#1c8a58}
+.cards h3{font-size:16px;margin:22px 0 8px}
+.cards p{font-size:13px;color:#637589;min-height:40px;line-height:1.5}
+.cards span{font-size:11px;color:#1c8a58;font-weight:700}
+.details{margin-top:24px}
+.details h2{margin:0 0 14px}
+.details p{font-size:13px;line-height:1.8}
+.details small{color:#637589}
+
+/* Parcel GIS workspace */
+.gis-panel{margin-top:26px;background:#fff;border:1px solid #e2eaf0;border-radius:20px;padding:22px;box-shadow:0 6px 24px #10263f08}
+.gis-head{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.gis-head h2{margin:0 0 6px}
+.gis-head p,.gis-details p{font-size:13px;color:#637589}
+.gis-panel button{border:0;background:#1c8a58;color:#fff;padding:11px 16px;border-radius:10px;font-weight:600}
+.gis-panel button:hover:not(:disabled){background:#147347}
+.gis-panel button:disabled{opacity:.55;cursor:not-allowed}
+.gis-panel button:focus-visible,.gis-login input:focus-visible{outline:3px solid #8de4ae;outline-offset:2px}
+.gis-login{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0}
+.gis-login label{font-size:13px;font-weight:600}
+.gis-login input{min-width:160px;max-width:260px;flex:1;padding:11px;border:1px solid #cad7df;border-radius:10px;background:#fff;color:#10263f}
+.gis-error{color:#a52626;font-size:13px}
+.gis-layout{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:18px;margin-top:16px}
+.gis-map{height:480px;border-radius:14px;overflow:hidden;border:1px solid #e2eaf0}
+.gis-details{background:#f5f8fa;border-radius:14px;padding:18px;min-width:0}
+.gis-details h3{margin:0;font-size:16px}
+.gis-details dt{font-size:12px;color:#637589;margin-top:16px}
+.gis-details dd{margin:4px 0;overflow-wrap:anywhere;font-size:13px;font-weight:600}
+
+/* Tablet layout */
+@media(max-width:1100px){
+ .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .shell>main{padding:0 24px 35px}
+}
+@media(max-width:850px){
+ .gis-layout{grid-template-columns:1fr}
+ .gis-map{height:370px}
+ .gis-login{align-items:stretch}
+ .gis-login input{max-width:none}
+}
+
+/* Mobile layout */
+@media(max-width:650px){
+ .shell{display:block}
+ .shell>aside{width:100%;padding:14px 16px}
+ .brand{margin-bottom:14px}
+ .shell>aside .nav{display:flex;flex-direction:row;gap:6px;overflow-x:auto;padding-bottom:5px}
+ .shell>aside .nav button{width:auto;flex:0 0 auto;white-space:nowrap;padding:10px 12px;font-size:12px}
+ .aside-foot{display:none}
+ .shell>main{padding:0 16px 24px}
+ .shell>main>header{height:65px;font-size:12px}
+ .status{font-size:11px;padding:7px 10px}
+ .hero{padding:30px 22px;border-radius:18px}
+ .hero h1{font-size:29px}
+ .cards{grid-template-columns:1fr;gap:12px}
+ .cards article{padding:20px}
+ .cards h3{margin-top:14px}
+ .cards p{min-height:0}
+ .gis-panel{padding:15px}
+ .gis-head{flex-wrap:wrap}
+ .gis-map{height:320px}
+ .gis-login{flex-direction:column;align-items:stretch}
+ .gis-login input{width:100%;max-width:none;min-width:0;flex:auto}
+}
+@media(prefers-reduced-motion:reduce){
+ .cards article,.shell>aside .nav button{transition:none}
+}
+
+/* Parcel Registry */
+.registry{margin-top:24px}
+.registry-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.registry-heading h2{margin:0 0 6px}
+.registry-heading p{color:#637589;font-size:13px}
+.registry-grid{display:grid;grid-template-columns:minmax(260px,1fr) minmax(0,2fr);gap:18px;margin-top:20px}
+.registry-card{background:#fff;border:1px solid #e2eaf0;border-radius:18px;padding:22px;min-width:0}
+.registry-card h3{margin:0 0 18px;font-size:17px}
+.registry-form{display:flex;flex-direction:column;gap:10px}
+.registry-form label{font-size:13px;font-weight:600}
+.registry-form input,.registry-form select,.registry-search{width:100%;padding:11px;border:1px solid #cad7df;border-radius:10px;background:#fff;color:#10263f}
+.registry button{border:0;border-radius:10px;background:#1c8a58;color:#fff;padding:10px 14px;font-weight:600}
+.registry button:disabled{opacity:.55;cursor:not-allowed}
+.registry button:focus-visible,.registry input:focus-visible,.registry select:focus-visible{outline:3px solid #8de4ae;outline-offset:2px}
+.registry-success{color:#187447;font-size:13px}
+.registry-search{margin-bottom:14px}
+.registry-table-wrap{overflow-x:auto}
+.registry-table{width:100%;border-collapse:collapse;font-size:13px;text-align:left}
+.registry-table th,.registry-table td{padding:12px;border-bottom:1px solid #e2eaf0}
+.registry-table th{background:#f5f8fa;font-weight:700}
+.registry-table td{overflow-wrap:anywhere}
+.registry-selected{margin-top:18px}
+.registry-selected dl{display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;font-size:13px}
+.registry-selected dt{color:#637589}
+.registry-selected dd{margin:0;overflow-wrap:anywhere;font-weight:600}
+@media(max-width:950px){.registry-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.registry-card{padding:16px}.registry-selected dl{grid-template-columns:1fr;gap:5px}}
+@media(max-width:650px){.registry-search-form{flex-wrap:wrap}.registry-search-form .registry-search{flex:1 1 100%}}
+
+/* Registry interaction refinements */
+.registry button:hover:not(:disabled){background:#147347}
+.registry button:disabled{opacity:.55;cursor:not-allowed}
+.registry-table td button{white-space:nowrap}
+.registry-success{margin:4px 0;color:#187447;font-weight:600}
+.registry-form .gis-error{margin:4px 0}
+.registry-table-wrap{max-width:100%}
+.registry-search-form{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.registry-search-form .registry-search{flex:1;min-width:0;margin:0}
+.registry-pagination{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px;font-size:12px;color:#637589}
+.registry-pagination>div{display:flex;gap:8px}
+
+/* SCIM Intelligence workspace */
+.scim-workspace{margin-top:24px}
+.scim-heading,.scim-panel-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.scim-heading h2{margin:0 0 7px}
+.scim-heading p,.scim-muted{color:#637589;font-size:13px;line-height:1.6}
+.scim-kicker{font-size:12px;color:#1c8a58;background:#e3f5e9;border-radius:20px;padding:8px 12px}
+.scim-tabs{display:flex;gap:8px;overflow-x:auto;margin:22px 0 16px;padding-bottom:5px}
+.scim-tabs button{border:1px solid #dbe6eb;border-radius:11px;padding:11px 15px;background:#fff;color:#536577;white-space:nowrap;font-weight:600}
+.scim-tabs button.active{background:#10263f;color:#fff;border-color:#10263f}
+.scim-panel{background:#fff;border:1px solid #e2eaf0;border-radius:18px;padding:22px;box-shadow:0 6px 24px #10263f08}
+.scim-panel h3{font-size:17px;margin:0 0 14px}
+.scim-form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.scim-form label{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:600}
+.scim-form input,.scim-form select,.scim-inline-form input{width:100%;min-width:0;padding:11px;border:1px solid #cad7df;border-radius:10px;background:#fff;color:#10263f;font:inherit}
+.scim-form-actions{display:flex;align-items:end}
+.scim-panel button:not(.scim-tabs button){border:0;border-radius:10px;background:#1c8a58;color:#fff;padding:11px 16px;font-weight:600;cursor:pointer}
+.scim-panel button:hover:not(:disabled){background:#147347}
+.scim-panel button:disabled{opacity:.55;cursor:not-allowed}
+.scim-workspace button:focus-visible,.scim-workspace input:focus-visible,.scim-workspace select:focus-visible{outline:3px solid #8de4ae;outline-offset:2px}
+.scim-error{color:#a52626;font-size:13px;overflow-wrap:anywhere}
+.scim-results,.scim-job-detail{border-top:1px solid #e2eaf0;margin-top:22px;padding-top:20px}
+.scim-table-wrap{overflow-x:auto}
+.scim-table-wrap table{border-collapse:collapse;width:100%;font-size:13px;text-align:left}
+.scim-table-wrap th,.scim-table-wrap td{padding:12px;border-bottom:1px solid #e2eaf0;overflow-wrap:anywhere}
+.scim-table-wrap th{background:#f5f8fa}
+.scim-json{max-height:420px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:#f5f8fa;padding:16px;border-radius:12px;font-size:12px;line-height:1.6}
+.scim-inline-form{display:flex;gap:10px;flex-wrap:wrap}
+.scim-inline-form input{flex:1;min-width:200px}
+@media(max-width:950px){.scim-form{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.scim-panel{padding:16px}.scim-form{grid-template-columns:1fr}.scim-heading{align-items:start}.scim-inline-form input{min-width:0}}
+
+/* SCIM Phase 3 — append to existing style.css */
+.scim-textarea{width:100%;min-height:90px;padding:11px;border:1px solid #cad7df;border-radius:10px;background:#fff;color:#10263f;font:inherit;resize:vertical}
+.scim-textarea:focus-visible{outline:3px solid #8de4ae;outline-offset:2px}
+.scim-index-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:16px 0}
+.scim-index-card{display:flex;flex-direction:column;gap:10px;background:#f5f8fa;border:1px solid #e2eaf0;border-radius:14px;padding:20px}
+.scim-index-card strong{font-size:13px;color:#637589}
+.scim-index-card span{font-size:25px;font-weight:800;color:#1c8a58;font-variant-numeric:tabular-nums}
+@media(max-width:650px){.scim-index-results{grid-template-columns:1fr}}
+
+/* SCIM Phase 4 */
+.scim-plan-editor{min-height:250px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px;line-height:1.6;margin-top:8px}
+.scim-json-label{display:block;font-size:13px;font-weight:700;margin-top:14px}
+.scim-plan-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+
+/* SCIM Phase 5 — parcel summaries and satellite asset review */
+.scim-json-form{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.scim-json-form label{font-size:13px;font-weight:700;color:#10263f}
+.scim-json-form textarea{width:100%;min-height:230px;resize:vertical;padding:14px;border:1px solid #cad7df;border-radius:12px;background:#fbfcfd;color:#10263f;font:12px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}
+.scim-json-form textarea:focus-visible{outline:3px solid #8de4ae;outline-offset:2px}
+.scim-json-form textarea:disabled{opacity:.65}
+.scim-schema-fields{margin-top:16px}
+.scim-schema-fields h4{font-size:14px;margin:0 0 12px}
+.scim-summary-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin:16px 0}
+.scim-summary-metrics>div{background:#f5f8fa;border:1px solid #e2eaf0;border-radius:12px;padding:12px;min-width:0}
+.scim-summary-metrics span{display:block;font-size:11px;text-transform:capitalize;color:#637589;margin-bottom:8px}
+.scim-summary-metrics strong{display:block;font-size:16px;overflow-wrap:anywhere}
+
+/* Phase 6 accessibility and responsive safeguards */
+.scim-workspace button:focus-visible,.scim-workspace input:focus-visible,.scim-workspace select:focus-visible,.scim-workspace textarea:focus-visible{outline:3px solid #8de4ae;outline-offset:2px}
+.scim-json{max-width:100%;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+@media(max-width:650px){.scim-workspace{min-width:0}.scim-tabs{overflow-x:auto}.scim-panel{min-width:0}}
+
+/* Field Verification — offline-first draft capture */
+.field-workspace{margin-top:24px;min-width:0}
+.field-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.field-heading h2{margin:0 0 8px}
+.field-heading p{font-size:13px;color:#637589;line-height:1.6}
+.field-pill{border-radius:20px;background:#e3f5e9;color:#187447;padding:8px 12px;font-size:12px;font-weight:700}
+.field-warning{padding:13px 16px;border:1px solid #e7d7a6;background:#fff9e9;color:#745411;border-radius:12px;font-size:13px;line-height:1.6}
+.field-notice{padding:12px 14px;background:#e3f5e9;color:#187447;border-radius:10px;font-size:13px}
+.field-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:20px}
+.field-card{background:#fff;border:1px solid #e2eaf0;border-radius:18px;padding:22px;min-width:0}
+.field-card h3{font-size:17px;margin:0 0 18px}
+.field-form{display:flex;flex-direction:column;gap:11px}
+.field-form label{font-size:13px;font-weight:700}
+.field-form select,.field-form textarea,.field-form input[type=file]{width:100%;padding:11px;border:1px solid #cad7df;border-radius:10px;background:#fff;color:#10263f}
+.field-form textarea{resize:vertical}
+.field-workspace button{border:0;border-radius:10px;background:#1c8a58;color:#fff;padding:10px 14px;font-size:13px;font-weight:700}
+.field-workspace button:hover:not(:disabled){background:#147347}
+.field-workspace button:disabled{opacity:.6;cursor:not-allowed}
+.field-workspace button:focus-visible,.field-workspace input:focus-visible,.field-workspace textarea:focus-visible,.field-workspace select:focus-visible{outline:3px solid #8de4ae;outline-offset:2px}
+.field-inline,.field-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.field-inline span{font-size:12px;color:#637589;overflow-wrap:anywhere}
+.field-workspace .field-secondary{background:#e9eef2;color:#10263f}
+.field-workspace .field-danger{background:#fff0ef;color:#a52626}
+.field-photo img{display:block;width:min(100%,280px);max-height:220px;object-fit:contain;border-radius:10px;margin-bottom:10px}
+.field-drafts{display:flex;flex-direction:column;gap:12px}
+.auth-panel{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.auth-form{display:flex;gap:8px;flex-wrap:wrap}.auth-form input{min-width:150px;padding:8px;border:1px solid #cbd5e1;border-radius:8px}.auth-panel .gis-error{margin:0;font-size:12px}
+.field-draft{border:1px solid #e2eaf0;border-radius:12px;padding:14px;min-width:0}
+.field-draft>div:first-child{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.field-draft p{font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5}
+.field-draft small{font-size:11px;color:#637589;overflow-wrap:anywhere}
+.field-draft .field-actions{margin-top:12px}
+@media(max-width:900px){.field-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.field-card{padding:16px}}
+
+/* Field Verification Phase 2 */
+.field-note{font-size:12px;line-height:1.6;color:#637589;margin:0 0 15px}
+
+/* Role-specific dashboards and governance views */
+.shell>main>header{min-width:0}
+.auth-panel{min-width:0}
+.auth-form{align-items:center}
+.auth-form input{width:170px;max-width:100%;padding:9px}
+.auth-form button{border:0;border-radius:9px;background:#1c8a58;color:#fff;padding:9px 12px;font-weight:600}
+.auth-form button:focus-visible,.auth-panel button:focus-visible{outline:3px solid #8de4ae;outline-offset:2px}
+.auth-form .auth-mode-button{background:#e9eef2;color:#10263f}
+.role-dashboard,.crop-workspace,.agents-workspace{margin-top:24px;min-width:0}
+.dashboard-heading,.crop-heading,.agents-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.dashboard-heading h1,.crop-heading h1,.agents-heading h1{font-size:clamp(25px,3vw,36px);margin:10px 0}
+.dashboard-heading p,.crop-heading p,.agents-heading p{max-width:760px;color:#637589;font-size:14px;line-height:1.7}
+.dashboard-notice{border:1px solid #e7d7a6;background:#fff9e9;color:#745411;border-radius:12px;padding:14px 16px;font-size:13px;line-height:1.6}
+.dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px}
+.agent-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.dashboard-card{display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-height:190px;padding:22px;border:1px solid #e2eaf0;border-radius:18px;background:#fff;color:#10263f;text-align:left;box-shadow:0 6px 24px #10263f08}
+.dashboard-card svg{color:#1c8a58}
+.dashboard-card-title{font-size:17px;font-weight:750}
+.dashboard-card-description{color:#637589;font-size:13px;line-height:1.55}
+.dashboard-card-action{margin-top:auto;color:#187447;font-size:12px;font-weight:700}
+.dashboard-card:hover{border-color:#b4d9c5;box-shadow:0 10px 26px #10263f12}
+.dashboard-card:focus-visible{outline:3px solid #8de4ae;outline-offset:3px}
+.dashboard-boundary,.agents-panel,.agent-card{margin-top:20px;padding:22px;border:1px solid #e2eaf0;border-radius:18px;background:#fff}
+.dashboard-boundary h2,.agents-panel h2{margin:0 0 12px}
+.dashboard-boundary p,.agents-panel p,.agents-panel li{color:#536577;font-size:13px;line-height:1.7}
+.agents-heading{align-items:center}
+.agent-status,.agent-registered,.agent-unavailable{display:inline-flex;align-items:center;border-radius:18px;padding:7px 11px;font-size:11px;font-weight:700}
+.agent-status,.agent-unavailable{background:#fff1df;color:#895b13}
+.agent-registered{background:#e3f5e9;color:#187447}
+.agent-card{margin-top:0;min-width:0}
+.agent-card>div{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.agent-card h2{margin:0;font-size:16px}
+.agent-card p{color:#637589;font-size:13px;line-height:1.6}
+.agent-state{margin:0 0 18px;padding:14px 16px;border:1px solid #dbe6eb;border-radius:13px;background:#fff;color:#536577;font-size:13px}
+.agent-state-error{border-color:#f1c7c7;background:#fff7f7;color:#9f2525}
+.agent-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.agent-summary>div{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;padding:13px 15px;border:1px solid #dfe7eb;border-radius:14px;background:#fff;box-shadow:0 4px 16px #10263f06}
+.agent-summary span{color:#5b6c7a;font-size:11px;font-weight:650}
+.agent-summary strong{color:#111827;font-size:20px;line-height:1;font-variant-numeric:tabular-nums}
+.agent-card{padding:18px;border-color:#dfe7eb;box-shadow:0 5px 20px #10263f08;transition:border-color .16s,box-shadow .16s,transform .16s}
+.agent-card:hover{transform:translateY(-2px);border-color:#bdd6c8;box-shadow:0 10px 26px #10263f11}
+.agent-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.agent-id{display:block;margin-bottom:6px;color:#5f7180;font:750 10px/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.agent-config-status,.agent-capability{display:inline-flex;align-items:center;width:max-content;border-radius:99px;font-size:10px;font-weight:750;text-transform:capitalize}
+.agent-config-status{padding:6px 9px;background:#f1f5f7;color:#485968}
+.agent-config-status.status-enabled,.agent-capability.is-available{background:#e7f7ed;color:#176b43}
+.agent-capability{padding:4px 7px}
+.agent-capability.is-unavailable{background:#fff2e2;color:#805615}
+.agent-capability.is-neutral{background:#eef2f5;color:#536577}
+.agent-facts{display:grid;gap:8px;margin:16px 0}
+.agent-facts>div{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:29px;padding-top:8px;border-top:1px solid #edf1f3}
+.agent-facts dt,.agent-details dt{color:#5c6d7a;font-size:11px;font-weight:600}
+.agent-facts dd,.agent-details dd{margin:0;text-align:right;color:#17212b;font-size:11px;font-weight:700;overflow-wrap:anywhere}
+.agent-details{border-top:1px solid #e7edf0;padding-top:12px}
+.agent-details summary{cursor:pointer;color:#176b43;font-size:12px;font-weight:750;list-style-position:outside;margin-left:14px}
+.agent-details[open] summary{margin-bottom:12px}
+.agent-details dl{display:grid;gap:0;margin:0;padding:4px 12px;border:1px solid #e5ebee;border-radius:11px;background:#f8fafb}
+.agent-details dl>div{display:grid;grid-template-columns:minmax(90px,.8fr) minmax(0,1.2fr);gap:12px;padding:10px 0;border-top:1px solid #e7edef}
+.agent-details dl>div:first-child{border-top:0}
+.agent-details dd{text-align:left}
+.agent-details code{display:block;color:#263845;font-size:10px;line-height:1.55;white-space:normal;word-break:break-word}
+.agent-inline-note{margin:10px 0 0;padding:9px;border-radius:9px;background:#fff7e9;color:#745411!important;font-size:11px!important}
+.learning-panel ul{padding-left:20px}
+.crop-workspace>.scim-panel{margin-top:18px}
+@media(max-width:1280px){.agent-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:980px){.agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.agent-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){
+ .shell>main>header{height:auto;min-height:65px;align-items:flex-start;flex-direction:column;padding:12px 0}
+ .auth-panel,.auth-form{width:100%}
+ .auth-form input{flex:1;min-width:120px}
+ .dashboard-card,.dashboard-boundary,.agents-panel,.agent-card{padding:16px}
+ .dashboard-card{min-height:160px}
+ .agents-heading{align-items:flex-start}
+ .agent-grid,.agent-summary{grid-template-columns:1fr}
+ .agent-summary>div{padding:12px 14px}
+}
+
+/* Governed AI intake workspace */
+.agent-workspace-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.agent-intake-fields{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));
+  gap:16px;
+  margin-top:20px;
+}
+.agent-intake-fields label{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  color:#111827;
+  font-size:13px;
+  font-weight:600;
+}
+.agent-intake-fields input,
+.agent-intake-fields select{
+  width:100%;
+  min-height:44px;
+  padding:10px 12px;
+  border:1.5px solid #93c5fd;
+  border-radius:10px;
+  background:#fff;
+  color:#111827;
+  font:inherit;
+}
+.agent-intake-fields input:focus,
+.agent-intake-fields select:focus{
+  outline:2px solid #2563eb;
+  outline-offset:1px;
+  border-color:#2563eb;
+}
+.agent-preview-state{
+  margin-top:18px;
+  padding:14px;
+  border-radius:12px;
+  background:#eff6ff;
+  color:#1e40af;
+  font-size:13px;
+}
+
+.agent-generate-button{
+  margin-top:18px;
+  min-height:44px;
+  padding:10px 20px;
+  border:0;
+  border-radius:10px;
+  background:#2563eb;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+.agent-generate-button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+.agent-profile-result{
+  margin-top:18px;
+  padding:20px;
+  border:1px solid #bfdbfe;
+  border-radius:14px;
+  background:#f8fbff;
+  color:#111827;
+}
+.agent-profile-result h3{
+  margin:0 0 14px;
+}
+.agent-profile-result dl{
+  display:grid;
+  grid-template-columns:minmax(100px,160px) 1fr;
+  gap:10px;
+}
+.agent-profile-result dt{
+  font-weight:600;
+}
+.agent-profile-result dd{
+  margin:0;
+  overflow-wrap:anywhere;
+}
+
+/* GAINT AgriNexa AI — Weather Agent */
+.agent-weather-workspace {
+  margin-top: 20px;
+  padding: 24px;
+  border: 1px solid #dce6ef;
+  border-radius: 18px;
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.04);
+}
+.agent-weather-heading,
+.agent-weather-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.agent-weather-heading h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  color: #111827;
+}
+.agent-weather-heading p {
+  margin: 0;
+  color: #475569;
+}
+.agent-weather-tag {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #e8f5ee;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+}
+.agent-weather-form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+.agent-weather-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #111827;
+  font-weight: 600;
+}
+.agent-weather-form input {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1.5px solid #93b4d5;
+  border-radius: 9px;
+  background: #fff;
+  color: #111827;
+}
+.agent-weather-form input:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+  border-color: #2563eb;
+}
+.agent-weather-form button {
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: end;
+}
+.agent-weather-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.agent-weather-error {
+  margin-top: 16px;
+  color: #b91c1c;
+}
+.agent-weather-results {
+  margin-top: 22px;
+}
+.agent-weather-result-header h4,
+.agent-weather-risks h4 {
+  margin: 0;
+  color: #111827;
+}
+.agent-weather-result-header span {
+  color: #64748b;
+  font-size: 13px;
+}
+.agent-weather-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 12px;
+  margin: 16px 0 22px;
+}
+.agent-weather-metrics article {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: #f3f7fb;
+  border-radius: 12px;
+}
+.agent-weather-metrics span {
+  color: #475569;
+  font-size: 13px;
+}
+.agent-weather-metrics strong {
+  color: #111827;
+  font-size: 21px;
+}
+.agent-weather-risks {
+  display: grid;
+  gap: 10px;
+}
+.agent-weather-risk {
+  padding: 14px 16px;
+  border: 1px solid #dce6ef;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+.agent-weather-risk strong {
+  color: #111827;
+}
+.agent-weather-risk p {
+  margin: 7px 0 0;
+  color: #334155;
+}
+.agent-weather-risk.severity-high {
+  border-left: 4px solid #dc2626;
+}
+.agent-weather-risk.severity-medium {
+  border-left: 4px solid #d97706;
+}
+.agent-weather-risk.severity-low {
+  border-left: 4px solid #2563eb;
+}
+.agent-weather-disclaimer {
+  margin-top: 18px;
+  font-size: 13px;
+  color: #475569;
+}
+@media (max-width: 800px) {
+  .agent-weather-form {
+    grid-template-columns: 1fr;
+  }
+  .agent-weather-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* GAINT AgriNexa AI — Crop Advisory Agent */
+.agent-crop-workspace {
+  margin-top: 20px;
+  padding: 24px;
+  border: 1px solid #dce6ef;
+  border-radius: 18px;
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 8px 28px rgba(15,23,42,.04);
+}
+.agent-crop-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.agent-crop-heading h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  color: #111827;
+}
+.agent-crop-heading p {
+  margin: 0;
+  color: #475569;
+}
+.agent-crop-tag {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #e8f5ee;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+}
+.agent-crop-form {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+.agent-crop-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #111827;
+  font-weight: 600;
+}
+.agent-crop-form select,
+.agent-crop-form input[type="number"] {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1.5px solid #93b4d5;
+  border-radius: 9px;
+  background: #fff;
+  color: #111827;
+}
+.agent-crop-form select:focus,
+.agent-crop-form input:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+.agent-crop-form .agent-crop-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.agent-crop-form button {
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: end;
+}
+.agent-crop-form button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+.agent-crop-error {
+  margin-top: 16px;
+  color: #b91c1c;
+}
+.agent-crop-results {
+  margin-top: 22px;
+}
+.agent-crop-summary h4 {
+  margin: 0 0 6px;
+  color: #111827;
+}
+.agent-crop-summary p {
+  margin: 0;
+  color: #475569;
+}
+.agent-crop-advisories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.agent-crop-item {
+  padding: 16px;
+  border: 1px solid #dce6ef;
+  border-left: 4px solid #2563eb;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+.agent-crop-item.severity-high {
+  border-left-color: #dc2626;
+}
+.agent-crop-item.severity-medium {
+  border-left-color: #d97706;
+}
+.agent-crop-item-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.agent-crop-item-heading strong {
+  color: #111827;
+}
+.agent-crop-item-heading span {
+  font-size: 12px;
+  color: #475569;
+}
+.agent-crop-item p {
+  color: #334155;
+  line-height: 1.55;
+}
+.agent-crop-item small {
+  color: #64748b;
+}
+.agent-crop-notice {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fff7ed;
+  color: #92400e;
+}
+.agent-crop-disclaimer {
+  margin-top: 18px;
+  color: #475569;
+  font-size: 13px;
+}
+@media(max-width:800px) {
+  .agent-crop-form {
+    grid-template-columns: 1fr;
+  }
+  .agent-crop-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* GAINT AgriNexa AI — Market Intelligence Agent */
+.agent-market-workspace {
+  margin-top: 20px;
+  padding: 24px;
+  border: 1px solid #dce6ef;
+  border-radius: 18px;
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 8px 28px rgba(15,23,42,.04);
+}
+.agent-market-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.agent-market-heading h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  color: #111827;
+}
+.agent-market-heading p {
+  margin: 0;
+  color: #475569;
+}
+.agent-market-tag {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #e8f5ee;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+}
+.agent-market-form {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+.agent-market-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #111827;
+  font-weight: 600;
+}
+.agent-market-form input,
+.agent-market-form select {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1.5px solid #93b4d5;
+  border-radius: 9px;
+  background: #fff;
+  color: #111827;
+}
+.agent-market-form input:focus,
+.agent-market-form select:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+.agent-market-form button {
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: end;
+}
+.agent-market-form button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+.agent-market-error {
+  margin-top: 16px;
+  color: #b91c1c;
+}
+.agent-market-results {
+  margin-top: 22px;
+}
+.agent-market-summary h4 {
+  margin: 0 0 6px;
+  color: #111827;
+}
+.agent-market-summary p {
+  color: #475569;
+}
+.agent-market-summary small {
+  color: #64748b;
+}
+.agent-market-table-wrap {
+  margin-top: 16px;
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+.agent-market-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1050px;
+}
+.agent-market-table th,
+.agent-market-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  color: #111827;
+  font-size: 13px;
+}
+.agent-market-table th {
+  background: #f1f5f9;
+  font-weight: 700;
+}
+.agent-market-table tbody tr:hover {
+  background: #f8fafc;
+}
+.agent-market-freshness {
+  white-space: nowrap;
+  font-weight: 600;
+}
+.agent-market-freshness.freshness-current {
+  color: #15803d;
+}
+.agent-market-freshness.freshness-recent {
+  color: #a16207;
+}
+.agent-market-freshness.freshness-stale {
+  color: #b91c1c;
+}
+.agent-market-disclaimer {
+  margin-top: 18px;
+  color: #475569;
+  font-size: 13px;
+}
+@media(max-width:800px) {
+  .agent-market-form {
+    grid-template-columns: 1fr;
+  }
+  .agent-market-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* GAINT AgriNexa AI — Government Scheme Agent */
+.agent-scheme-workspace {
+  margin-top: 20px;
+  padding: 24px;
+  border: 1px solid #dce6ef;
+  border-radius: 18px;
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 8px 28px rgba(15,23,42,.04);
+}
+.agent-scheme-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.agent-scheme-heading h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  color: #111827;
+}
+.agent-scheme-heading p,
+.agent-scheme-message {
+  color: #475569;
+}
+.agent-scheme-tag {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #e8f5ee;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+}
+.agent-scheme-form {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+.agent-scheme-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #111827;
+  font-weight: 600;
+}
+.agent-scheme-form input,
+.agent-scheme-form select {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1.5px solid #93b4d5;
+  border-radius: 9px;
+  background: #fff;
+  color: #111827;
+}
+.agent-scheme-form input:focus,
+.agent-scheme-form select:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+.agent-scheme-form button {
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: end;
+}
+.agent-scheme-form button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+.agent-scheme-error {
+  color: #b91c1c;
+  margin-top: 16px;
+}
+.agent-scheme-results {
+  margin-top: 22px;
+}
+.agent-scheme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+.agent-scheme-card {
+  padding: 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+.agent-scheme-card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.agent-scheme-card h4 {
+  margin: 0;
+  color: #111827;
+}
+.agent-scheme-card p,
+.agent-scheme-card li {
+  color: #334155;
+  line-height: 1.5;
+}
+.agent-scheme-card strong {
+  color: #111827;
+}
+.agent-scheme-status {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.agent-scheme-status.status-potential_match {
+  color: #15803d;
+}
+.agent-scheme-status.status-needs_review {
+  color: #a16207;
+}
+.agent-scheme-status.status-not_matched {
+  color: #b91c1c;
+}
+.agent-scheme-card a {
+  color: #1d4ed8;
+  font-weight: 700;
+}
+.agent-scheme-disclaimer {
+  margin-top: 18px;
+  color: #475569;
+  font-size: 13px;
+}
+@media(max-width:800px) {
+  .agent-scheme-form {
+    grid-template-columns: 1fr;
+  }
+  .agent-scheme-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* GAINT AgriNexa AI — Milestone 10 Escalation Agent */
+.agrinexa-escalation{margin:24px 0;padding:24px;border:1px solid #dbe5f2;border-radius:20px;background:#fff;color:#111827;box-shadow:0 10px 32px rgba(15,23,42,.05)}
+.agrinexa-escalation__header,.agrinexa-escalation__section-title,.agrinexa-escalation__evidence-head,.agrinexa-escalation__result-header{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.agrinexa-escalation__header h2{margin:6px 0;font-size:23px;color:#111827}
+.agrinexa-escalation__header p,.agrinexa-escalation__section-title p{color:#475569;line-height:1.6}
+.agrinexa-escalation__eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#2563eb}
+.agrinexa-escalation__status{padding:9px 13px;border-radius:99px;background:#eff6ff;color:#1d4ed8;font-weight:700;font-size:12px;white-space:nowrap}
+.agrinexa-escalation__notice{margin:18px 0;padding:13px 16px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;color:#1e40af;font-size:13px;line-height:1.6}
+.agrinexa-escalation__form{display:grid;gap:18px}
+.agrinexa-escalation__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.agrinexa-escalation label{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:700;color:#111827}
+.agrinexa-escalation input:not([type=checkbox]),.agrinexa-escalation select,.agrinexa-escalation textarea{box-sizing:border-box;width:100%;min-height:43px;border:1.5px solid #93c5fd;border-radius:10px;padding:10px 12px;background:#fff;color:#111827;font:inherit;font-weight:500;outline:none;transition:border-color .15s,box-shadow .15s}
+.agrinexa-escalation textarea{resize:vertical;min-height:88px}
+.agrinexa-escalation input:focus,.agrinexa-escalation select:focus,.agrinexa-escalation textarea:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.agrinexa-escalation__section-title{margin-top:8px}
+.agrinexa-escalation__section-title h3{margin:0;font-size:17px}
+.agrinexa-escalation__section-title p{margin:6px 0 0;font-size:12px}
+.agrinexa-escalation__evidence{display:grid;gap:14px;padding:18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:15px}
+.agrinexa-escalation__evidence-head strong{font-size:14px}
+.agrinexa-escalation__checkbox{flex-direction:row!important;align-items:center;gap:9px!important;font-weight:600!important}
+.agrinexa-escalation__checkbox input{accent-color:#2563eb;width:16px;height:16px}
+.agrinexa-escalation__primary,.agrinexa-escalation__secondary{cursor:pointer;border-radius:10px;padding:11px 16px;font-weight:750;transition:transform .15s,background .15s}
+.agrinexa-escalation__primary{background:#2563eb;color:white;border:1px solid #2563eb;justify-self:start}
+.agrinexa-escalation__primary:hover{background:#1d4ed8}
+.agrinexa-escalation__secondary{background:white;color:#1d4ed8;border:1px solid #93c5fd}
+.agrinexa-escalation__remove{border:0;background:transparent;color:#b91c1c;font-weight:700;cursor:pointer}
+.agrinexa-escalation button:disabled{opacity:.55;cursor:not-allowed}
+.agrinexa-escalation__error{color:#b91c1c;background:#fef2f2;padding:12px;border-radius:10px}
+.agrinexa-escalation__result{margin-top:22px;padding:20px;background:#f8fafc;border:1px solid #dbeafe;border-radius:16px}
+.agrinexa-escalation__result-header h3{margin:5px 0}
+.agrinexa-escalation__severity{padding:9px 13px;border-radius:99px;font-size:12px;font-weight:800;text-transform:capitalize}
+.agrinexa-escalation__severity--low{background:#dcfce7;color:#166534}
+.agrinexa-escalation__severity--moderate{background:#fef3c7;color:#92400e}
+.agrinexa-escalation__severity--high{background:#ffedd5;color:#9a3412}
+.agrinexa-escalation__severity--critical{background:#fee2e2;color:#991b1b}
+.agrinexa-escalation__metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+.agrinexa-escalation__metrics>div{padding:15px;background:white;border:1px solid #e2e8f0;border-radius:12px}
+.agrinexa-escalation__metrics span{display:block;font-size:12px;color:#64748b;margin-bottom:6px}
+.agrinexa-escalation__metrics strong{font-size:17px;color:#111827;text-transform:capitalize}
+.agrinexa-escalation__result-section{margin-top:18px}
+.agrinexa-escalation__result-section h4{margin:0 0 10px}
+.agrinexa-escalation__result-section li{margin:7px 0;line-height:1.6;color:#334155}
+@media(max-width:800px){.agrinexa-escalation__grid,.agrinexa-escalation__metrics{grid-template-columns:1fr}.agrinexa-escalation__header,.agrinexa-escalation__section-title{align-items:flex-start;flex-direction:column}.agrinexa-escalation{padding:16px}}
+
+/* GAINT AgriNexa AI — Milestone 11 Learning Agent */
+.agrinexa-learning{margin:24px 0;padding:24px;border:1px solid #dbe5f2;border-radius:20px;background:#fff;color:#111827;box-shadow:0 10px 32px rgba(15,23,42,.05)}
+.agrinexa-learning__header,.agrinexa-learning__section-head,.agrinexa-learning__item-head,.agrinexa-learning__result-head{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.agrinexa-learning__header h2{margin:6px 0;font-size:23px;color:#111827}
+.agrinexa-learning__header p,.agrinexa-learning__section-head p{color:#475569;line-height:1.6}
+.agrinexa-learning__eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#2563eb}
+.agrinexa-learning__status,.agrinexa-learning__priority{padding:9px 13px;border-radius:99px;background:#eff6ff;color:#1d4ed8;font-weight:700;font-size:12px;white-space:nowrap;text-transform:capitalize}
+.agrinexa-learning__notice{margin:18px 0;padding:13px 16px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;color:#1e40af;font-size:13px;line-height:1.6}
+.agrinexa-learning__form{display:grid;gap:18px}
+.agrinexa-learning__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.agrinexa-learning label{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:700;color:#111827}
+.agrinexa-learning input:not([type=checkbox]),.agrinexa-learning select,.agrinexa-learning textarea{box-sizing:border-box;width:100%;min-height:43px;border:1.5px solid #93c5fd;border-radius:10px;padding:10px 12px;background:#fff;color:#111827;font:inherit;font-weight:500;outline:none;transition:border-color .15s,box-shadow .15s}
+.agrinexa-learning textarea{resize:vertical;min-height:85px}
+.agrinexa-learning input:focus,.agrinexa-learning select:focus,.agrinexa-learning textarea:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.agrinexa-learning__section-head{margin-top:8px}
+.agrinexa-learning__section-head h3{margin:0;font-size:17px}
+.agrinexa-learning__section-head p{margin:6px 0 0;font-size:12px}
+.agrinexa-learning__item{display:grid;gap:14px;padding:18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:15px}
+.agrinexa-learning__item-head strong{font-size:14px}
+.agrinexa-learning__evidence{display:grid;gap:12px;padding:15px;border-radius:12px;background:#fff;border:1px solid #e2e8f0}
+.agrinexa-learning__evidence h4{margin:0;font-size:13px}
+.agrinexa-learning__checkbox{flex-direction:row!important;align-items:center;gap:9px!important;font-weight:600!important}
+.agrinexa-learning__checkbox input{accent-color:#2563eb;width:16px;height:16px}
+.agrinexa-learning__primary,.agrinexa-learning__secondary{cursor:pointer;border-radius:10px;padding:11px 16px;font-weight:750;transition:background .15s}
+.agrinexa-learning__primary{background:#2563eb;color:white;border:1px solid #2563eb;justify-self:start}
+.agrinexa-learning__primary:hover{background:#1d4ed8}
+.agrinexa-learning__secondary{background:white;color:#1d4ed8;border:1px solid #93c5fd}
+.agrinexa-learning__remove{border:0;background:transparent;color:#b91c1c;font-weight:700;cursor:pointer}
+.agrinexa-learning button:disabled{opacity:.55;cursor:not-allowed}
+.agrinexa-learning__error{color:#b91c1c;background:#fef2f2;padding:12px;border-radius:10px}
+.agrinexa-learning__result{margin-top:22px;padding:20px;background:#f8fafc;border:1px solid #dbeafe;border-radius:16px}
+.agrinexa-learning__result-head h3{margin:5px 0}
+.agrinexa-learning__metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+.agrinexa-learning__metrics>div{padding:15px;background:white;border:1px solid #e2e8f0;border-radius:12px}
+.agrinexa-learning__metrics span{display:block;font-size:12px;color:#64748b;margin-bottom:6px}
+.agrinexa-learning__metrics strong{font-size:17px;color:#111827}
+.agrinexa-learning__findings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.agrinexa-learning__finding{padding:15px;background:white;border:1px solid #e2e8f0;border-radius:12px;display:grid;gap:6px}
+.agrinexa-learning__finding strong{color:#111827}
+.agrinexa-learning__finding span,.agrinexa-learning__finding small{color:#475569;text-transform:capitalize}
+.agrinexa-learning__finding p{margin:4px 0;color:#334155;line-height:1.6}
+.agrinexa-learning__result li{margin:8px 0;line-height:1.6;color:#334155}
+@media(max-width:800px){.agrinexa-learning__grid,.agrinexa-learning__metrics,.agrinexa-learning__findings{grid-template-columns:1fr}.agrinexa-learning__header,.agrinexa-learning__section-head{align-items:flex-start;flex-direction:column}.agrinexa-learning{padding:16px}}
