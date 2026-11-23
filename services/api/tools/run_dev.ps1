@@ -15,8 +15,24 @@ if (-not (Test-Path -LiteralPath $envFile -PathType Leaf)) {
 
 $createdJwtSecret = $false
 $secretBytes = $null
+$createdPhotoStorage = $false
 
 try {
+    if ([string]::IsNullOrWhiteSpace($env:AGRINEXA_PRIVATE_PHOTO_DIR)) {
+        if ([string]::IsNullOrWhiteSpace($env:LOCALAPPDATA)) {
+            throw "LOCALAPPDATA is required when AGRINEXA_PRIVATE_PHOTO_DIR is not configured."
+        }
+
+        $env:AGRINEXA_PRIVATE_PHOTO_DIR = Join-Path `
+            $env:LOCALAPPDATA `
+            "GAINT AI Agri\private-photos"
+        New-Item `
+            -ItemType Directory `
+            -Path $env:AGRINEXA_PRIVATE_PHOTO_DIR `
+            -Force | Out-Null
+        $createdPhotoStorage = $true
+    }
+
     if ([string]::IsNullOrWhiteSpace($env:AGRINEXA_JWT_SECRET)) {
         $secretBytes = New-Object byte[] 48
         $random = [Security.Cryptography.RandomNumberGenerator]::Create()
@@ -55,6 +71,10 @@ try {
 finally {
     if ($createdJwtSecret) {
         Remove-Item Env:AGRINEXA_JWT_SECRET -ErrorAction SilentlyContinue
+    }
+
+    if ($createdPhotoStorage) {
+        Remove-Item Env:AGRINEXA_PRIVATE_PHOTO_DIR -ErrorAction SilentlyContinue
     }
 
     if ($null -ne $secretBytes) {

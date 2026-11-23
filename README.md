@@ -16,6 +16,11 @@ Remove-Item Env:GDAL_DATA -ErrorAction SilentlyContinue
 python -m pytest -q
 .\tools\run_dev.ps1 -Reload
 ```
+cd "D:\GAINT AI Agri\apps\web\GAINT-AgriNexa-AI"
+
+.\.venv\Scripts\Activate.ps1
+
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8001 --reload
 
 For local raster tests, point PROJ to the data bundled with the installed PyProj package, not an unrelated PostgreSQL/PostGIS installation. The commands above set this for the current PowerShell session.
 
@@ -31,7 +36,7 @@ npm run build
 npm run dev
 ```
 
-Create `services\api\.env` from an authorized local configuration before starting the API. Verify that its database target is a disposable database approved for this run; do not point it at the protected `agrinexa` database or reuse exposed credentials. Configure `AGRINEXA_JWT_SECRET` with a unique value of at least 32 characters. To enable field-photo uploads, set `AGRINEXA_PRIVATE_PHOTO_DIR` to an existing private local directory. The API command uses Uvicorn's `--env-file .env` option to load that file without overriding variables already set in the process environment. Set `VITE_API_BASE_URL` when the API is not at `http://localhost:8000`. API startup does not apply migrations automatically.
+Create `services\api\.env` from an authorized local configuration before starting the API. Verify that its database target is a disposable database approved for this run; do not point it at the protected `agrinexa` database or reuse exposed credentials. The development launcher generates an ephemeral JWT secret when none is configured and defaults private photo storage to `%LOCALAPPDATA%\GAINT AI Agri\private-photos`; manual Uvicorn launches must configure both explicitly. The API command uses Uvicorn's `--env-file .env` option to load that file without overriding variables already set in the process environment. Set `VITE_API_BASE_URL` when the API is not at `http://localhost:8000`. API startup does not apply migrations automatically.
 
 The Playwright browser suite starts a temporary local Vite server and intercepts all API requests with synthetic fixtures. It verifies browser UI, IndexedDB offline persistence, role-isolated views, mocked evidence synchronization/review, and responsive layouts without starting the API or connecting to a database. These mocked browser results are not live UAT evidence. See [browser acceptance](docs/BROWSER_ACCEPTANCE.md) and [submission readiness](docs/submission-readiness.md).
 
