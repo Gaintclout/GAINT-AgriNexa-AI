@@ -15,3 +15,10 @@ apps/web/playwright-report/
 apps/web/.playwright-browsers/
 services/api/.env
 deploy/backup-approval.json
+*.backup
+*.backup-*
+*.bak
+*.farmer-backup
+.env.backup*
+apps/web/GAINT-AgriNexa-AI/
+services/api/migration_0012_preview.sql

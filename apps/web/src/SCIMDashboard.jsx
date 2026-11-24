@@ -1,4 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import {
+  Satellite,
+  ScanSearch,
+  ChartNoAxesCombined,
+  ClipboardList,
+  MapPinned,
+  Layers,
+  Workflow,
+  ListChecks,
+  ShieldCheck
+} from 'lucide-react';
+
 import SpectralIndices from './SpectralIndices.jsx';
 import SCIMJobPlanning from './SCIMJobPlanning.jsx';
 import SCIMParcelIntelligence from './SCIMParcelIntelligence.jsx';
@@ -58,7 +70,7 @@ export default function SCIMDashboard() {
       const values = provider?.enum || [];
       if (!controller.signal.aborted) setProviders(Array.isArray(values) ? values : []);
     }).catch(error => {
-      if (!controller.signal.aborted && error.name !== 'AbortError') setProviderError('Provider options unavailable. Enter a backend-supported provider value.');
+      if (!controller.signal.aborted && error.name !== 'AbortError') setProviderError('Provider options could not be loaded. Enter a supported provider manually.');
     });
     return () => controller.abort();
   }, []);
@@ -181,39 +193,92 @@ export default function SCIMDashboard() {
   const sceneRows = Array.isArray(scenes?.scenes) ? scenes.scenes : [];
   if (!session) return <section className="scim-workspace"><div className="scim-panel"><h2>SCIM Intelligence</h2><p>Sign in above with an authorized SCIM account.</p></div></section>;
   if (!['admin','gis_operator','ml_team'].includes(session.principal.role)) return <section className="scim-workspace"><div className="scim-panel"><h2>SCIM Intelligence</h2><p className="scim-error">Your account is not authorized for SCIM.</p></div></section>;
-  return <section className="scim-workspace">
-    <div className="scim-heading"><div><h2>SCIM Intelligence</h2><p>Satellite catalogue discovery, processing stages and job monitoring</p></div><span className="scim-kicker">Live backend integration</span></div>
-    <div className="scim-tabs" role="tablist" aria-label="SCIM sections">
-      {[['catalog', 'Satellite Catalogue'], ['assessment', 'Scene Assessment'], ['indices', 'Spectral Indices'], ['planning', 'Job Planning'], ['summary', 'Parcel Summary'], ['assets', 'Asset Review'], ['stages', 'Processing Stages'], ['jobs', 'SCIM Jobs']].map(([id, label]) => <button key={id} type="button" role="tab" aria-selected={tab === id} className={tab === id ? 'active' : ''} onClick={() => setTab(id)}>{label}</button>)}
-    </div>
-    {tab === 'catalog' && <div className="scim-panel">
+  return <section className="scim-workspace scim-modern-workspace">
+    <div className="scim-modern-heading">
+
+  <div className="scim-modern-heading-content">
+
+    <span className="scim-modern-label">
+      <ShieldCheck size={18} aria-hidden="true" />
+      Satellite intelligence workspace
+    </span>
+
+    <h2>Satellite Catalogue &amp; SCIM</h2>
+
+    <p>
+      Discover satellite scenes, assess scene quality
+      and inspect processing information.
+    </p>
+
+  </div>
+
+  <div className="scim-modern-art" aria-hidden="true">
+    <Satellite size={86} strokeWidth={1.3} />
+  </div>
+
+</div>
+    <div className="scim-tabs scim-modern-tabs" aria-label="SCIM sections">
+
+  {[
+    ['catalog', 'Satellite Catalogue', Satellite],
+    ['assessment', 'Scene Assessment', ScanSearch],
+    ['indices', 'Spectral Indices', ChartNoAxesCombined],
+    ['planning', 'Job Planning', ClipboardList],
+    ['summary', 'Parcel Summary', MapPinned],
+    ['assets', 'Asset Review', Layers],
+    ['stages', 'Processing Stages', Workflow],
+    ['jobs', 'SCIM Jobs', ListChecks]
+  ].map(([id, label, Icon]) => (
+
+    <button
+      key={id}
+      type="button"
+      aria-pressed={tab === id}
+      className={tab === id ? 'active' : ''}
+      onClick={() => setTab(id)}
+    >
+      <Icon size={21} strokeWidth={1.8} aria-hidden="true" />
+      <span>{label}</span>
+    </button>
+
+  ))}
+
+</div>
+{tab === 'catalog' && <div className="scim-panel">
       <h3>Discover satellite scenes</h3>
-      <p className="scim-muted">Provider must match the SatelliteProvider enum in your backend. The uploaded schema did not include its allowed values.</p>
+      <p className="scim-muted">Select a satellite provider and enter the geographic area and search period.</p>
       {providerError && <p className="scim-muted">{providerError}</p>}
       <form className="scim-form" onSubmit={discover}>
-        <label>Satellite provider{providers.length ? <select required value={form.provider} onChange={e => setForm({ ...form, provider: e.target.value })}><option value="">Select provider</option>{providers.map(value => <option key={value} value={value}>{value}</option>)}</select> : <input required value={form.provider} onChange={e => setForm({ ...form, provider: e.target.value })} placeholder="Backend provider value" />}</label>
+        <label>Satellite provider{providers.length ? <select required value={form.provider} onChange={e => setForm({ ...form, provider: e.target.value })}><option value="">Select provider</option>{providers.map(value => <option key={value} value={value}>{value}</option>)}</select> : <input required value={form.provider} onChange={e => setForm({ ...form, provider: e.target.value })} placeholder="Enter supported provider" />}</label>
         <label>Discovery mode<select value={discoveryMode} onChange={e => setDiscoveryMode(e.target.value)}><option value="discover">Discover</option><option value="discover-ranked">Ranked discovery</option></select></label>
-        {['west', 'south', 'east', 'north'].map(field => <label key={field}>{field.charAt(0).toUpperCase() + field.slice(1)}<input type="number" step="any" required value={form[field]} onChange={e => setForm({ ...form, [field]: e.target.value })} /></label>)}
+        {['west', 'south', 'east', 'north'].map(field => <label key={field}>{({west:'West longitude',south:'South latitude',east:'East longitude',north:'North latitude'})[field]}<input type="number" step="any" required value={form[field]} onChange={e => setForm({ ...form, [field]: e.target.value })} /></label>)}
         <label>Start (local time)<input type="datetime-local" required value={form.start} onChange={e => setForm({ ...form, start: e.target.value })} /></label>
         <label>End (local time)<input type="datetime-local" required value={form.end} onChange={e => setForm({ ...form, end: e.target.value })} /></label>
-        <label>Max cloud (%)<input type="number" min="0" max="100" step="any" required value={form.max_cloud_percent} onChange={e => setForm({ ...form, max_cloud_percent: e.target.value })} /></label>
+        <label>Maximum cloud cover (%)<input type="number" min="0" max="100" step="any" required value={form.max_cloud_percent} onChange={e => setForm({ ...form, max_cloud_percent: e.target.value })} /></label>
         <label>Scene limit<input type="number" min="1" max="100" step="1" required value={form.limit} onChange={e => setForm({ ...form, limit: e.target.value })} /></label>
-        <div className="scim-form-actions"><button disabled={catalogBusy} type="submit">{catalogBusy ? 'Searching...' : 'Discover Scenes'}</button></div>
+        <div className="scim-form-actions"><button disabled={catalogBusy} type="submit">{catalogBusy ? 'Searching...' : 'Discover scenes'}</button></div>
       </form>
-      {catalogError && <p className="scim-error" role="alert">{catalogError}</p>}
-      {scenes && <div className="scim-results"><h3>Discovery Results</h3><p className="scim-muted">Returned: {scenes.returned ?? sceneRows.length} · Truncated: {scenes.truncated ? 'Yes' : 'No'}</p><div className="scim-table-wrap"><table><thead><tr><th>Scene ID</th><th>Collection</th><th>Captured</th><th>Cloud %</th><th>Bands</th><th>Assets</th></tr></thead><tbody>{sceneRows.map((scene, index) => <tr key={`${scene.scene_id}-${index}`}><td>{scene.scene_id}</td><td>{scene.collection}</td><td>{scene.captured_at ? new Date(scene.captured_at).toLocaleString() : '—'}</td><td>{scene.cloud_cover_percent ?? '—'}</td><td>{(scene.available_bands || []).join(', ') || '—'}</td><td>{scene.assets_complete ? 'Complete' : 'Incomplete'}</td></tr>)}{!sceneRows.length && <tr><td colSpan="6">No scenes returned.</td></tr>}</tbody></table></div></div>}
+      {!catalogBusy && !scenes && !catalogError && (
+  <div className="scim-modern-empty">
+    <Satellite size={40} strokeWidth={1.5} aria-hidden="true" />
+    <h3>Discovery results</h3>
+    <p>Search satellite scenes to view available metadata.</p>
+  </div>
+)}
+{catalogError && <p className="scim-error" role="alert">{catalogError}</p>}
+      {scenes && <div className="scim-results"><h3>Discovery results</h3><p className="scim-muted">Returned: {scenes.returned ?? sceneRows.length} · Truncated: {scenes.truncated ? 'Yes' : 'No'}</p><div className="scim-table-wrap"><table><thead><tr><th>Scene ID</th><th>Collection</th><th>Captured</th><th>Cloud %</th><th>Bands</th><th>Assets</th></tr></thead><tbody>{sceneRows.map((scene, index) => <tr key={`${scene.scene_id}-${index}`}><td>{scene.scene_id}</td><td>{scene.collection}</td><td>{scene.captured_at ? new Date(scene.captured_at).toLocaleString() : '—'}</td><td>{scene.cloud_cover_percent ?? '—'}</td><td>{(scene.available_bands || []).join(', ') || '—'}</td><td>{scene.assets_complete ? 'Complete' : 'Incomplete'}</td></tr>)}{!sceneRows.length && <tr><td colSpan="6">No scenes returned.</td></tr>}</tbody></table></div></div>}
     </div>}
     {tab === 'assessment' && <div className="scim-panel">
-      <h3>Scene Quality Assessment</h3>
+      <h3>Scene quality assessment</h3>
       <p className="scim-muted">Assess one candidate satellite scene against the backend's cloud-cover and geographic checks.</p>
       <form className="scim-form" onSubmit={assessScene}>
-        <label>Provider{providers.length ? <select required value={assessmentForm.provider} onChange={e => setAssessmentForm({ ...assessmentForm, provider: e.target.value })}><option value="">Select provider</option>{providers.map(value => <option key={value} value={value}>{value}</option>)}</select> : <input required value={assessmentForm.provider} onChange={e => setAssessmentForm({ ...assessmentForm, provider: e.target.value })} placeholder="Backend provider value" />}</label>
+        <label>Provider{providers.length ? <select required value={assessmentForm.provider} onChange={e => setAssessmentForm({ ...assessmentForm, provider: e.target.value })}><option value="">Select provider</option>{providers.map(value => <option key={value} value={value}>{value}</option>)}</select> : <input required value={assessmentForm.provider} onChange={e => setAssessmentForm({ ...assessmentForm, provider: e.target.value })} placeholder="Enter supported provider" />}</label>
         <label>Scene ID<input required maxLength={200} value={assessmentForm.scene_id} onChange={e => setAssessmentForm({ ...assessmentForm, scene_id: e.target.value })} placeholder="Scene identifier" /></label>
         <label>Captured at (local time)<input type="datetime-local" required value={assessmentForm.captured_at} onChange={e => setAssessmentForm({ ...assessmentForm, captured_at: e.target.value })} /></label>
         <label>Scene cloud cover (%)<input type="number" min="0" max="100" step="any" required value={assessmentForm.cloud_cover_percent} onChange={e => setAssessmentForm({ ...assessmentForm, cloud_cover_percent: e.target.value })} /></label>
-        {['west', 'south', 'east', 'north'].map(key => <label key={key}>{key.charAt(0).toUpperCase() + key.slice(1)}<input type="number" step="any" required value={assessmentForm[key]} onChange={e => setAssessmentForm({ ...assessmentForm, [key]: e.target.value })} /></label>)}
+        {['west', 'south', 'east', 'north'].map(key => <label key={key}>{({west:'West longitude',south:'South latitude',east:'East longitude',north:'North latitude'})[key]}<input type="number" step="any" required value={assessmentForm[key]} onChange={e => setAssessmentForm({ ...assessmentForm, [key]: e.target.value })} /></label>)}
         <label>Maximum allowed cloud (%)<input type="number" min="0" max="100" step="any" required value={assessmentForm.max_cloud_percent} onChange={e => setAssessmentForm({ ...assessmentForm, max_cloud_percent: e.target.value })} /></label>
-        <div className="scim-form-actions"><button type="submit" disabled={assessmentBusy}>{assessmentBusy ? 'Assessing...' : 'Assess Scene'}</button></div>
+        <div className="scim-form-actions"><button type="submit" disabled={assessmentBusy}>{assessmentBusy ? 'Assessing...' : 'Assess scene'}</button></div>
       </form>
       {assessmentError && <p className="scim-error" role="alert">{assessmentError}</p>}
       {assessmentResult && <div className="scim-results" role="status"><h3>{assessmentResult.usable ? 'Usable scene' : 'Scene not usable'}</h3><p>Scene: {assessmentResult.scene_id}</p><p>Cloud cover: {assessmentResult.cloud_cover_percent}%</p><p>Reasons: {Array.isArray(assessmentResult.reasons) && assessmentResult.reasons.length ? assessmentResult.reasons.join('; ') : 'No reasons reported'}</p></div>}
@@ -222,7 +287,7 @@ export default function SCIMDashboard() {
     {tab === 'planning' && <SCIMJobPlanning request={request} />}
     {tab === 'summary' && <SCIMParcelIntelligence mode="summary" request={request} />}
     {tab === 'assets' && <SCIMParcelIntelligence mode="assets" request={request} />}
-    {tab === 'stages' && <div className="scim-panel"><div className="scim-panel-head"><h3>Processing Stages</h3><button type="button" disabled={stagesBusy} onClick={() => loadStages()}>{stagesBusy ? 'Loading...' : 'Refresh'}</button></div>{stagesError && <p className="scim-error" role="alert">{stagesError}</p>}{stages !== null && <JsonDetails value={stages} />}{!stagesBusy && stages === null && !stagesError && <p className="scim-muted">No stage data available.</p>}</div>}
-    {tab === 'jobs' && <div className="scim-panel"><h3>Job Monitoring</h3><form className="scim-form" onSubmit={loadJobs}><label>Parcel ID (optional)<input value={filters.parcel_id} onChange={e => setFilters({ ...filters, parcel_id: e.target.value })} /></label><label>Status<select value={filters.status} onChange={e => setFilters({ ...filters, status: e.target.value })}>{STATUSES.map(status => <option key={status} value={status}>{status || 'All statuses'}</option>)}</select></label><label>Limit<input type="number" min="1" max="100" value={filters.limit} onChange={e => setFilters({ ...filters, limit: e.target.value })} /></label><label>Offset<input type="number" min="0" value={filters.offset} onChange={e => setFilters({ ...filters, offset: e.target.value })} /></label><div className="scim-form-actions"><button disabled={jobsBusy} type="submit">{jobsBusy ? 'Loading...' : 'Load Jobs'}</button></div></form>{jobsError && <p className="scim-error" role="alert">{jobsError}</p>}{jobs !== null && <div className="scim-results"><h3>Backend Job Response</h3><JsonDetails value={jobs} /></div>}<div className="scim-job-detail"><h3>Inspect Job by ID</h3><form className="scim-inline-form" onSubmit={loadJob}><input aria-label="Job ID" placeholder="Enter job ID" value={jobId} onChange={e => setJobId(e.target.value)} /><button disabled={jobBusy} type="submit">{jobBusy ? 'Loading...' : 'Inspect Job'}</button></form><div className="scim-plan-actions"><button type="button" disabled={cancelBusy || jobBusy || !jobId.trim()} onClick={cancelJob}>{cancelBusy ? 'Cancelling...' : 'Cancel Job'}</button></div>{cancelMessage && <p className="registry-success" role="status">{cancelMessage}</p>}{jobError && <p className="scim-error" role="alert">{jobError}</p>}{selectedJob !== null && <JsonDetails value={selectedJob} />}</div></div>}
+    {tab === 'stages' && <div className="scim-panel"><div className="scim-panel-head"><h3>Processing stages</h3><button type="button" disabled={stagesBusy} onClick={() => loadStages()}>{stagesBusy ? 'Loading...' : 'Refresh'}</button></div>{stagesError && <p className="scim-error" role="alert">{stagesError}</p>}{stages !== null && <JsonDetails value={stages} />}{!stagesBusy && stages === null && !stagesError && <p className="scim-muted">No stage data available.</p>}</div>}
+    {tab === 'jobs' && <div className="scim-panel"><h3>Job monitoring</h3><form className="scim-form" onSubmit={loadJobs}><label>Parcel ID (optional)<input value={filters.parcel_id} onChange={e => setFilters({ ...filters, parcel_id: e.target.value })} /></label><label>Status<select value={filters.status} onChange={e => setFilters({ ...filters, status: e.target.value })}>{STATUSES.map(status => <option key={status} value={status}>{status ? status.charAt(0).toUpperCase() + status.slice(1) : 'All statuses'}</option>)}</select></label><label>Limit<input type="number" min="1" max="100" value={filters.limit} onChange={e => setFilters({ ...filters, limit: e.target.value })} /></label><label>Offset<input type="number" min="0" value={filters.offset} onChange={e => setFilters({ ...filters, offset: e.target.value })} /></label><div className="scim-form-actions"><button disabled={jobsBusy} type="submit">{jobsBusy ? 'Loading...' : 'Load jobs'}</button></div></form>{jobsError && <p className="scim-error" role="alert">{jobsError}</p>}{jobs !== null && <div className="scim-results"><h3>Job results</h3><JsonDetails value={jobs} /></div>}<div className="scim-job-detail"><h3>Inspect job by ID</h3><form className="scim-inline-form" onSubmit={loadJob}><input aria-label="Job ID" placeholder="Enter job ID" value={jobId} onChange={e => setJobId(e.target.value)} /><button disabled={jobBusy} type="submit">{jobBusy ? 'Loading...' : 'Inspect job'}</button></form><div className="scim-plan-actions"><button type="button" disabled={cancelBusy || jobBusy || !jobId.trim()} onClick={cancelJob}>{cancelBusy ? 'Cancelling...' : 'Cancel job'}</button></div>{cancelMessage && <p className="registry-success" role="status">{cancelMessage}</p>}{jobError && <p className="scim-error" role="alert">{jobError}</p>}{selectedJob !== null && <JsonDetails value={selectedJob} />}</div></div>}
   </section>;
 }

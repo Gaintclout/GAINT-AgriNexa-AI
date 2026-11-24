@@ -82,7 +82,7 @@ function readinessIssues(record) {
 
   if (!/^[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$/.test(record.parcel_id || '')) issues.push('A valid parcel UUID is required.');
 
-  if (!record.observation?.trim() || record.observation.length > 3000) issues.push('Observation must contain 1–3000 characters.');
+  if (!record.observation?.trim() || record.observation.length > 3000) issues.push('Observation must contain 1â€“3000 characters.');
 
   const lat = Number(record.latitude), lon = Number(record.longitude);
 
@@ -367,9 +367,31 @@ export default function FieldVerification() {
 
       <div className="field-heading">
 
-        <div><h2>Field Verification</h2><p>Capture observations, GPS and photos. Prepare evidence offline for later submission.</p></div>
+        <div><h2>Field Verification</h2><p>Record your field visit, capture location and collect photo evidence.</p></div>
 
-        <span className="field-pill">Offline drafts + manual secure sync</span>
+        <span className="field-pill">Offline evidence collection</span>
+
+      </div>
+
+      <div className="field-summary-grid">
+
+        <div className="field-summary-card field-summary-draft">
+          <span>Offline drafts</span>
+          <strong>{drafts.length - readyCount - submittedCount}</strong>
+          <small>Saved on this device</small>
+        </div>
+
+        <div className="field-summary-card field-summary-ready">
+          <span>Ready to sync</span>
+          <strong>{readyCount}</strong>
+          <small>Waiting for submission</small>
+        </div>
+
+        <div className="field-summary-card field-summary-submitted">
+          <span>Submitted</span>
+          <strong>{submittedCount}</strong>
+          <small>Submitted records stored locally</small>
+        </div>
 
       </div>
 
@@ -385,35 +407,35 @@ export default function FieldVerification() {
 
         <section className="field-card">
 
-          <h3>{editingId ? 'Edit Offline Draft' : 'New Field Observation'}</h3>
+          <h3>{editingId ? 'Edit offline draft' : 'New field observation'}</h3>
 
           <form onSubmit={persist} className="field-form">
 
-            <label htmlFor="field-parcel">Parcel</label>
+            <label htmlFor="field-parcel">1. Select land</label>
 
             <select id="field-parcel" required value={form.parcel_id} onChange={e => setForm(previous => ({ ...previous, parcel_id: e.target.value }))}>
 
-              <option value="">Select parcel</option>
+              <option value="">Select land record</option>
 
               {form.parcel_id && !parcels.some(p => p.id === form.parcel_id) && <option value={form.parcel_id}>Saved parcel ({form.parcel_id})</option>}
 
-              {parcels.map(p => <option key={p.id} value={p.id}>{p.external_id} — {p.village_code}</option>)}
+              {parcels.map(p => <option key={p.id} value={p.id}>{p.external_id} â€” {p.village_code}</option>)}
 
             </select>
 
-            <label htmlFor="field-observation">Field observation</label>
+            <label htmlFor="field-observation">2. Field observation</label>
 
             <textarea id="field-observation" required rows={4} maxLength={3000} placeholder="Describe crop condition, observed issues, and evidence" value={form.observation} onChange={e => setForm(previous => ({ ...previous, observation: e.target.value }))} />
 
-            <div className="field-inline">
+            <label>3. Capture location</label><div className="field-inline">
 
               <button type="button" onClick={captureLocation} disabled={gpsBusy}>{gpsBusy ? 'Locating...' : 'Capture GPS'}</button>
 
-              <span>{form.latitude !== '' && form.longitude !== '' ? `Lat ${Number(form.latitude).toFixed(6)}, Lon ${Number(form.longitude).toFixed(6)} (±${form.accuracy_m} m)` : 'No GPS captured'}</span>
+              <span>{form.latitude !== '' && form.longitude !== '' ? `Lat ${Number(form.latitude).toFixed(6)}, Lon ${Number(form.longitude).toFixed(6)} (Â±${form.accuracy_m} m)` : 'No GPS captured'}</span>
 
             </div>
 
-            <label htmlFor="field-photo">Evidence photo (max 8 MB)</label>
+            <label htmlFor="field-photo">4. Evidence photo (maximum 8 MB)</label>
 
             <input id="field-photo" type="file" accept="image/*" capture="environment" onChange={e => {
 
@@ -431,7 +453,7 @@ export default function FieldVerification() {
 
             <div className="field-actions">
 
-              <button type="submit" disabled={!userId || saving || busyId !== null}>{saving ? 'Saving...' : editingId ? 'Update Offline Draft' : 'Save Offline Draft'}</button>
+              <button type="submit" disabled={!userId || saving || busyId !== null}>{saving ? 'Saving...' : editingId ? 'Update offline draft' : 'Save offline draft'}</button>
 
               {editingId && <button type="button" className="field-secondary" onClick={() => { setEditingId(null); setForm(EMPTY); }}>Cancel edit</button>}
 
@@ -443,7 +465,7 @@ export default function FieldVerification() {
 
         <section className="field-card">
 
-          <h3>Saved Records ({drafts.length})</h3>
+          <h3>Saved records ({drafts.length})</h3>
 
           <p className="field-note">Ready locally: {readyCount}. Drafts: {drafts.length - readyCount - submittedCount}. Submitted: {submittedCount}.</p>
 
@@ -461,11 +483,11 @@ export default function FieldVerification() {
 
                 <p>{record.observation}</p>
 
-                <small>{record.latitude !== '' && record.longitude !== '' ? `GPS: ${record.latitude}, ${record.longitude}` : 'GPS not captured'} · {record.photo ? 'Photo attached locally' : 'No photo'} · {record.status === READY ? 'Ready for manual photo + metadata sync' : record.status === 'server_submitted' ? 'Submitted to server' : 'Local draft — not submitted'}</small>
+                <small>{record.latitude !== '' && record.longitude !== '' ? `GPS: ${record.latitude}, ${record.longitude}` : 'GPS not captured'} Â· {record.photo ? 'Photo attached locally' : 'No photo'} Â· {record.status === READY ? 'Ready for manual photo + metadata sync' : record.status === 'server_submitted' ? 'Submitted to server' : 'Local draft â€” not submitted'}</small>
 
                 <div className="field-actions">
 
-                  {record.status !== 'server_submitted' && <button type="button" className="field-secondary" disabled={busyId !== null || saving || syncBusy} onClick={() => toggleReady(record)}>{busyId === record.id ? 'Working...' : record.status === READY ? 'Return to Draft' : 'Mark Ready'}</button>}
+                  {record.status !== 'server_submitted' && <button type="button" className="field-secondary" disabled={busyId !== null || saving || syncBusy} onClick={() => toggleReady(record)}>{busyId === record.id ? 'Working...' : record.status === READY ? 'Return to draft' : 'Mark ready'}</button>}
 
                   {record.status !== 'server_submitted' && <button type="button" disabled={busyId !== null || saving || syncBusy} onClick={() => edit(record)}>Edit</button>}
 

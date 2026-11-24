@@ -116,11 +116,11 @@ export default function SpectralIndices({ request }) {
     finally { setBusy(false); }
   }
 
-  return <div className="scim-panel">
-    <h3>Spectral Index Calculation</h3>
-    <p className="scim-muted">Calculate NDVI, NDWI and NDMI from backend-validated reflectance or sensor-band inputs. Field definitions load from the live FastAPI OpenAPI specification.</p>
-    <div className="scim-tabs" role="group" aria-label="Index calculation method">
-      {MODES.map(item => <button key={item.id} type="button" className={mode === item.id ? 'active' : ''} aria-pressed={mode === item.id} onClick={() => switchMode(item.id)}>{item.label}</button>)}
+  return <div className="scim-panel spectral-modern-panel">
+    <h3>Spectral index calculation</h3>
+    <p className="scim-muted">Select a calculation method and enter the required measurements. Input fields are loaded from the live backend schema.</p>
+    <div className="scim-tabs spectral-method-tabs" role="group" aria-label="Index calculation method">
+      {MODES.map(item => <button key={item.id} type="button" className={mode === item.id ? 'active' : ''} aria-pressed={mode === item.id} disabled={busy} onClick={() => switchMode(item.id)}>{item.label}</button>)}
     </div>
     {schemaError && <p className="scim-error" role="alert">Unable to load input schema: {schemaError}. Check that the API is running and allows browser requests to /openapi.json.</p>}
     {!spec && !schemaError && <p className="scim-muted">Loading API field definitions...</p>}
@@ -143,14 +143,46 @@ export default function SpectralIndices({ request }) {
         />}
         {item.description && <small className="scim-muted">{item.description}</small>}
       </label>)}
-      <div className="scim-form-actions"><button type="submit" disabled={busy}>{busy ? 'Calculating...' : 'Calculate Indices'}</button></div>
+      <div className="scim-form-actions"><button type="submit" disabled={busy}>{busy ? 'Calculating...' : 'Calculate indices'}</button></div>
     </form>}
-    {error && <p className="scim-error" role="alert">{error}</p>}
+    {!busy && !result && !error && fields.length > 0 && (
+  <div className="spectral-empty">
+    <h4>Calculation results</h4>
+    <p>Enter measurements and calculate indices to view results.</p>
+  </div>
+)}
+{error && <p className="scim-error" role="alert">{error}</p>}
     {result && <div className="scim-results" role="status">
-      <h3>Calculated Indices</h3>
-      <div className="scim-index-results">{['ndvi', 'ndwi', 'ndmi'].map(name => <div className="scim-index-card" key={name}><strong>{name.toUpperCase()}</strong><span>{typeof result[name] === 'number' ? result[name].toFixed(4) : 'Not available'}</span></div>)}</div>
+      <h3>Calculated indices</h3>
+      <div className="scim-index-results">{['ndvi', 'ndwi', 'ndmi'].map(name => <div
+  className={`scim-index-card spectral-result-${name}`}
+  key={name}
+>
+  <strong>{name.toUpperCase()}</strong>
+
+  <small>
+    {{
+      ndvi: 'Vegetation index',
+      ndwi: 'Water index',
+      ndmi: 'Moisture index'
+    }[name]}
+  </small>
+
+  <span>
+    {typeof result[name] === 'number'
+      ? result[name].toFixed(4)
+      : 'Not available'}
+  </span>
+
+  <small>Backend result</small>
+</div>)}</div>
       <p className="scim-muted">Values are returned by the backend; no client-side index estimates are substituted.</p>
-      <pre className="scim-json">{JSON.stringify(result, null, 2)}</pre>
+      <details className="scim-technical-details">
+  <summary>View technical response</summary>
+  <pre className="scim-json">
+    {JSON.stringify(result, null, 2)}
+  </pre>
+</details>
     </div>}
   </div>;
 }

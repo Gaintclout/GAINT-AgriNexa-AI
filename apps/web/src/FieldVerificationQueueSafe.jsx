@@ -16,10 +16,10 @@ class QueueErrorBoundary extends Component {
   render() {
     if (this.state.failed) {
       return (
-        <section className="field-card">
-          <h3>Offline Evidence Queue</h3>
+        <section className="field-card field-queue-fallback">
+          <h3>Offline evidence queue</h3>
           <p className="gis-error" role="alert">Queue panel unavailable. Existing drafts remain stored locally.</p>
-          <button type="button" className="field-secondary" onClick={() => this.setState({ failed: false })}>Retry Queue Panel</button>
+          <button type="button" className="field-secondary" onClick={() => this.setState({ failed: false })}>Retry queue panel</button>
         </section>
       );
     }
@@ -30,7 +30,7 @@ class QueueErrorBoundary extends Component {
 export default function FieldVerificationQueueSafe({ refreshKey, userId }) {
   return (
     <QueueErrorBoundary>
-      <Suspense fallback={<p>Loading offline queue...</p>}>
+      <Suspense fallback={<section className="field-card field-queue-loading" role="status"><p>Loading offline evidence queue...</p></section>}>
         <QueueManager key={`${userId}-${refreshKey}`} userId={userId} />
       </Suspense>
     </QueueErrorBoundary>

@@ -415,6 +415,260 @@ export default function ParcelRegistry() {
     }
   }
 
+  // Farmer-friendly read-only land interface
+  if (session && role === 'farmer') {
+    return (
+      <section className="farmer-land-page">
+
+        <div className="farmer-land-heading">
+          <div>
+            <h1>My Land</h1>
+            <p>View your agricultural land records.</p>
+          </div>
+
+          <button
+            type="button"
+            className="farmer-land-secondary"
+            disabled={loading}
+            onClick={manualRefresh}
+          >
+            {loading ? 'Refreshing...' : 'Refresh'}
+          </button>
+        </div>
+
+        <div className="farmer-land-summary">
+          <span>My land records</span>
+          <strong>{loading ? '...' : parcels.length}</strong>
+          <p>
+            Records on this page
+            {hasMore ? ' - More records available' : ''}
+          </p>
+        </div>
+
+        {error && (
+          <div className="gis-error" role="alert">
+            {error}
+          </div>
+        )}
+
+        <section className="farmer-land-section">
+          <h2>Find your land</h2>
+
+          <form
+            className="farmer-land-search"
+            onSubmit={event => {
+              event.preventDefault();
+              setSelected(null);
+              setPage(0);
+              setAppliedSearch(search.trim());
+            }}
+          >
+            <label htmlFor="farmer-land-search">
+              Search land records
+            </label>
+
+            <input
+              id="farmer-land-search"
+              placeholder="Enter land ID or village code"
+              maxLength={100}
+              value={search}
+              onChange={event =>
+                setSearch(event.target.value)
+              }
+            />
+
+            <div className="farmer-land-actions">
+              <button
+                type="submit"
+                className="farmer-land-primary"
+                disabled={loading}
+              >
+                Search
+              </button>
+
+              <button
+                type="button"
+                className="farmer-land-secondary"
+                disabled={loading}
+                onClick={() => {
+                  setSearch('');
+                  setSelected(null);
+                  setPage(0);
+                  setAppliedSearch('');
+                }}
+              >
+                Clear
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <div className="farmer-land-heading">
+          <h2>Land records</h2>
+        </div>
+
+        {loading && (
+          <div
+            className="farmer-land-section"
+            role="status"
+          >
+            Loading your land records...
+          </div>
+        )}
+
+        {!loading && !error && parcels.length === 0 && (
+          <div className="farmer-land-empty">
+            <h3>No land records found</h3>
+            <p>
+              {appliedSearch
+                ? 'Try searching with a different land ID or village code.'
+                : 'No land records are currently assigned to your account.'}
+            </p>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <div className="farmer-land-grid">
+            {parcels.map(parcel => (
+              <article
+                key={parcel.id}
+                className="farmer-land-card"
+              >
+                <div className="farmer-land-card-top">
+                  <div>
+                    <span className="farmer-land-caption">
+                      Land ID
+                    </span>
+                    <h3>{parcel.external_id}</h3>
+                  </div>
+
+                  <span className="farmer-land-badge">
+                    {parcel.farmer_id
+                      ? 'Assigned to you'
+                      : 'Unassigned'}
+                  </span>
+                </div>
+
+                <dl className="farmer-land-fields">
+                  <div>
+                    <dt>Village code</dt>
+                    <dd>{parcel.village_code}</dd>
+                  </div>
+
+                  <div>
+                    <dt>Land area</dt>
+                    <dd>
+                      {parcel.area_hectares != null &&
+                       Number.isFinite(Number(parcel.area_hectares))
+                        ? `${(Number(parcel.area_hectares) * 2.47105381).toFixed(2)} acres`
+                        : 'Unavailable'}
+                    </dd>
+                    <small>
+                      {parcel.area_hectares ?? 'Unavailable'} hectares
+                    </small>
+                  </div>
+                </dl>
+
+                <button
+                  type="button"
+                  className="farmer-land-primary"
+                  onClick={() => viewParcel(parcel.id)}
+                >
+                  View land details
+                </button>
+
+                {selected?.id === parcel.id && (
+                  <div className="farmer-land-detail">
+                    <div className="farmer-land-heading">
+                      <h3>Land details</h3>
+
+                      <button
+                        type="button"
+                        className="farmer-land-secondary"
+                        onClick={() => setSelected(null)}
+                      >
+                        Close
+                      </button>
+                    </div>
+
+                    <dl className="farmer-land-fields">
+                      <div>
+                        <dt>Land ID</dt>
+                        <dd>{selected.external_id}</dd>
+                      </div>
+
+                      <div>
+                        <dt>Village code</dt>
+                        <dd>{selected.village_code}</dd>
+                      </div>
+
+                      <div>
+                        <dt>Area in hectares</dt>
+                        <dd>{selected.area_hectares}</dd>
+                      </div>
+
+                      <div>
+                        <dt>Ownership</dt>
+                        <dd>
+                          {selected.farmer_id
+                            ? 'Assigned to you'
+                            : 'Unassigned'}
+                        </dd>
+                      </div>
+
+                      <div>
+                        <dt>Record ID</dt>
+                        <dd>{selected.id}</dd>
+                      </div>
+
+                      <div>
+                        <dt>Record created</dt>
+                        <dd>
+                          {selected.created_at || 'Unavailable'}
+                        </dd>
+                      </div>
+                    </dl>
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        )}
+
+        <div className="farmer-land-pagination">
+          <button
+            type="button"
+            className="farmer-land-secondary"
+            disabled={page === 0 || loading}
+            onClick={() => {
+              setSelected(null);
+              setPage(value => Math.max(0, value - 1));
+            }}
+          >
+            Previous
+          </button>
+
+          <span>Page {page + 1}</span>
+
+          <button
+            type="button"
+            className="farmer-land-secondary"
+            disabled={!hasMore || loading}
+            onClick={() => {
+              setSelected(null);
+              setPage(value => value + 1);
+            }}
+          >
+            Next
+          </button>
+        </div>
+
+        <ParcelMap />
+
+      </section>
+    );
+  }
+
   if (!session) {
     return (
       <div className="registry">
@@ -706,9 +960,9 @@ export default function ParcelRegistry() {
 
           <div className="registry-pagination">
             <span>
-              Page {page + 1} · {parcels.length}{' '}
+              Page {page + 1} Â· {parcels.length}{' '}
               record{parcels.length === 1 ? '' : 's'}
-              {hasMore ? ' · More results available' : ''}
+              {hasMore ? ' Â· More results available' : ''}
             </span>
 
             <div>

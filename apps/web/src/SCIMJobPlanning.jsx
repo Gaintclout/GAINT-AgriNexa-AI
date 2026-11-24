@@ -57,22 +57,41 @@ export default function SCIMJobPlanning({request}){
    if(mode==='preview')setPreview(data);else setPlanned(data);
   }catch(e){setError(e.message)}finally{setBusy('')}
  }
- return <div className="scim-panel">
-  <h3>Processing Preview & Job Planning</h3>
-  <p className="scim-muted">The request is built from your live FastAPI PlanRequest schema. Review and edit all fields before submitting. Preview does not create a job; Plan Job submits to the backend and may create a persistent job.</p>
-  {schemaError&&<p className="scim-error" role="alert">Cannot load PlanRequest: {schemaError}</p>}
+ return <div className="scim-panel scim-modern-planning">
+  <h3>Processing preview &amp; job planning</h3>
+  <p className="scim-muted">Review the request generated from the backend schema before submitting.</p>
+  <div className="scim-planning-guide">
+
+  <article>
+    <strong>1. Prepare request</strong>
+    <p>Review all required fields in the request editor.</p>
+  </article>
+
+  <article>
+    <strong>2. Preview processing</strong>
+    <p>Inspect the processing preview without creating a job.</p>
+  </article>
+
+  <article>
+    <strong>3. Plan job</strong>
+    <p>Submit the request. This may create a persistent backend job.</p>
+  </article>
+
+</div>
+
+{schemaError&&<p className="scim-error" role="alert">Cannot load PlanRequest: {schemaError}</p>}
   {!spec&&!schemaError&&<p className="scim-muted">Loading backend schema...</p>}
   {spec&&<>
    <p className="scim-muted">Required fields: {required.join(', ')||'None listed'}</p>
    <label className="scim-json-label" htmlFor="scim-plan-json">Job planning request (JSON)</label>
-   <textarea id="scim-plan-json" className="scim-textarea scim-plan-editor" spellCheck={false} value={payload} onChange={e=>setPayload(e.target.value)}/>
+   <textarea id="scim-plan-json" className="scim-textarea scim-plan-editor" spellCheck={false} disabled={!!busy} value={payload} onChange={e=>setPayload(e.target.value)}/>
    <div className="scim-plan-actions">
-    <button type="button" disabled={!!busy} onClick={()=>execute('preview')}>{busy==='preview'?'Previewing...':'Preview Processing'}</button>
-    <button type="button" disabled={!!busy} onClick={()=>execute('plan')}>{busy==='plan'?'Planning...':'Plan Job'}</button>
+    <button type="button" disabled={!!busy} onClick={()=>execute('preview')}>{busy==='preview'?'Previewing...':'Preview processing'}</button>
+    <button type="button" className="scim-primary-plan" disabled={!!busy} onClick={()=>execute('plan')}>{busy==='plan'?'Planning...':'Plan job'}</button>
    </div>
   </>}
   {error&&<p className="scim-error" role="alert">{error}</p>}
-  {preview!==null&&<div className="scim-results"><h3>Processing Preview</h3><pre className="scim-json">{JSON.stringify(preview,null,2)}</pre></div>}
-  {planned!==null&&<div className="scim-results" role="status"><h3>Job Planning Response</h3><pre className="scim-json">{JSON.stringify(planned,null,2)}</pre></div>}
+  {preview!==null&&<div className="scim-results"><h3>Processing preview</h3><pre className="scim-json">{JSON.stringify(preview,null,2)}</pre></div>}
+  {planned!==null&&<div className="scim-results" role="status"><h3>Job planning result</h3><pre className="scim-json">{JSON.stringify(planned,null,2)}</pre></div>}
  </div>;
 }
