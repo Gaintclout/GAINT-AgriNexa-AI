@@ -357,7 +357,7 @@ function App() {
           </button>
 
           <p className="staff-environment">
-            Development environment
+            GAINT AgriNexa AI
           </p>
 
         </div>
